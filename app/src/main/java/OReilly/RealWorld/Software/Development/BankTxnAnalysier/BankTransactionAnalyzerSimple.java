@@ -41,11 +41,9 @@ public class BankTransactionAnalyzerSimple {
      */
     public Double getPnL() throws IOException {
         BankAnalyzerCSVParser csvParser = new BankAnalyzerCSVParser(fileName);
-
         double ans = 0;
-        for (String string : csvParser.parse()) {
-            String[] cols = string.split(",");
-            ans += Double.parseDouble(cols[1]);
+        for (BankTransaction bankTransaction : csvParser.parse()) {
+            ans += bankTransaction.getAmount();
         }
         return ans;
     }
@@ -57,12 +55,9 @@ public class BankTransactionAnalyzerSimple {
      */
     public int numberOfTransactions(Month month) throws Exception{
         BankAnalyzerCSVParser csvParser = new BankAnalyzerCSVParser(fileName);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         int count = 0;
-        for (String string : csvParser.parse()) {
-            String[] cols = string.split(",");
-            LocalDate parseDate = LocalDate.parse(cols[0], dateTimeFormatter);
-            if (parseDate.getMonth().equals(Month.from(month))){
+        for (BankTransaction bankTransaction : csvParser.parse()) {
+            if (bankTransaction.getDate().getMonth().equals(Month.from(month))){
                 count++;
             }
         }
