@@ -1,18 +1,13 @@
-package OReilly.RealWorld.Software.Development;
+package OReilly.RealWorld.Software.Development.BankTxnAnalysier;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BankTransactionAnalyzerSimple {
 
@@ -27,7 +22,7 @@ public class BankTransactionAnalyzerSimple {
      */
 
     private final String fileName;
-    private static final String RESOURCES = "app/src/main/resources/";
+
     public BankTransactionAnalyzerSimple(String fileName) {
         this.fileName = fileName;
     }
@@ -45,10 +40,10 @@ public class BankTransactionAnalyzerSimple {
      *  Violates SRP - Loads file, parses columns, calculates result and shows result i.e more than 1 reason to change GOD class
      */
     public Double getPnL() throws IOException {
-        Path path = Paths.get(RESOURCES + fileName);
-        List<String> strings = Files.readAllLines(path);
+        BankAnalyzerCSVParser csvParser = new BankAnalyzerCSVParser(fileName);
+
         double ans = 0;
-        for (String string : strings) {
+        for (String string : csvParser.parse()) {
             String[] cols = string.split(",");
             ans += Double.parseDouble(cols[1]);
         }
@@ -61,11 +56,10 @@ public class BankTransactionAnalyzerSimple {
      *
      */
     public int numberOfTransactions(Month month) throws Exception{
-        Path path = Paths.get(RESOURCES + fileName);
-        List<String> strings = Files.readAllLines(path);
+        BankAnalyzerCSVParser csvParser = new BankAnalyzerCSVParser(fileName);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         int count = 0;
-        for (String string : strings) {
+        for (String string : csvParser.parse()) {
             String[] cols = string.split(",");
             LocalDate parseDate = LocalDate.parse(cols[0], dateTimeFormatter);
             if (parseDate.getMonth().equals(Month.from(month))){
