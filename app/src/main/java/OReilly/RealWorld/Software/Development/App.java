@@ -3,6 +3,8 @@
  */
 package OReilly.RealWorld.Software.Development;
 
+import OReilly.RealWorld.Software.Development.BankTxnAnalysier.BankTransactionProcessor;
+
 import java.time.Month;
 
 public class App {
@@ -13,9 +15,7 @@ public class App {
     public static void main(String[] args) throws Exception{
 
         String fileName = "bank-data-simple.csv";
-        BankTransactionAnalyzerSimple bta = new BankTransactionAnalyzerSimple(fileName);
-        Double pnL = bta.getPnL();
-        System.out.println(pnL);
-        System.out.println(bta.numberOfTransactions(Month.JANUARY));
+
+
     }
 }
