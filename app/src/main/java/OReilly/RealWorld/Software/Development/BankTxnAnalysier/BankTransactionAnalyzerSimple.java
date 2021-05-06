@@ -2,29 +2,23 @@ package OReilly.RealWorld.Software.Development.BankTxnAnalysier;
 
 import java.io.IOException;
 import java.time.Month;
-import java.util.List;
 
 public class BankTransactionAnalyzerSimple {
 
 
-    private final String fileName;
+    private BankStatementParser parser;
 
-    public BankTransactionAnalyzerSimple(String fileName) {
-        this.fileName = fileName;
+    public BankTransactionAnalyzerSimple(BankStatementParser parser) {
+        this.parser = parser;
     }
 
     public static void main(String[] args) throws IOException {
         String fileName = "bank-data-simple.csv";
 
-        BankTransactionAnalyzerSimple bankTransactionAnalyzerSimple =
-                new BankTransactionAnalyzerSimple(fileName);
-
-        BankAnalyzerCSVParser csvParser = new BankAnalyzerCSVParser(
-                bankTransactionAnalyzerSimple.fileName
-        );
+        BankStatementCSVParser csvParser = new BankStatementCSVParser();
 
         BankTransactionProcessor bankTransactionProcessor =
-                new BankTransactionProcessor(csvParser.parse());
+                new BankTransactionProcessor(csvParser.parseFromFile(fileName));
 
         System.out.println(bankTransactionProcessor.numberOfTransactions(Month.JANUARY));
         System.out.println(bankTransactionProcessor.getPnL());
