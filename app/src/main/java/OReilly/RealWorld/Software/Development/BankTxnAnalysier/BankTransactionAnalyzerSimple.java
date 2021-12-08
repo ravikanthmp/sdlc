@@ -13,7 +13,7 @@ public class BankTransactionAnalyzerSimple {
     }
 
     public static void main(String[] args) throws IOException {
-        String fileName = "bank-data-simple.csv";
+        String fileName = "/bank-data-simple.csv";
 
         BankStatementCSVParser csvParser = new BankStatementCSVParser();
 
@@ -22,5 +22,10 @@ public class BankTransactionAnalyzerSimple {
 
         System.out.println(bankTransactionProcessor.numberOfTransactions(Month.JANUARY));
         System.out.println(bankTransactionProcessor.getPnL());
+
+        for (BankTransaction transaction : bankTransactionProcessor.findTransactions(new BankTransactionIsInFebruaryAndExpensive())) {
+            System.out.println(transaction);
+        }
+
     }
 }

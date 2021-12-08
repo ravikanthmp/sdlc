@@ -9,6 +9,7 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BankTransactionProcessor {
 
@@ -53,33 +54,10 @@ public class BankTransactionProcessor {
         return count;
     }
 
-    public List<BankTransaction> findTransactionsGreaterThanEqual(final int amount){
-        List<BankTransaction> bankTransactions = new LinkedList<>();
-        for (BankTransaction bankTransaction : bankTransactions) {
-            if (bankTransaction.getAmount() > amount){
-                bankTransactions.add(bankTransaction);
-            }
-        }
-        return bankTransactions;
+    public List<BankTransaction> findTransactions(BankTransactionFilter filter){
+        return bankTransactions.stream()
+                .filter(bankTransaction -> filter.test(bankTransaction))
+                .collect(Collectors.toList());
     }
 
-    public List<BankTransaction> findTransactionsInMonth(final Month month){
-        List<BankTransaction> bankTransactions = new LinkedList<>();
-        for (BankTransaction bankTransaction : bankTransactions) {
-            if (bankTransaction.getDate().getMonth().equals(month)){
-                bankTransactions.add(bankTransaction);
-            }
-        }
-        return bankTransactions;
-    }
-
-    public List<BankTransaction> findTransactionsInMonthAndGreater(final Month month, final int amount) {
-        List<BankTransaction> bankTransactions = new LinkedList<>();
-        for (BankTransaction bankTransaction : bankTransactions) {
-            if (bankTransaction.getDate().getMonth().equals(month) && bankTransaction.getAmount() > amount){
-                bankTransactions.add(bankTransaction);
-            }
-        }
-        return bankTransactions;
-    }
 }

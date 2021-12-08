@@ -25,4 +25,13 @@ public class BankTransaction {
     public String getLocation() {
         return location;
     }
+
+    @Override
+    public String toString() {
+        return "BankTransaction{" +
+                "date=" + date +
+                ", amount=" + amount +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

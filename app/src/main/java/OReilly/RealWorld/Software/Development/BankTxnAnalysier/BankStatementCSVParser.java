@@ -1,6 +1,7 @@
 package OReilly.RealWorld.Software.Development.BankTxnAnalysier;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,10 +18,12 @@ public class BankStatementCSVParser implements BankStatementParser {
     }
 
     public List<BankTransaction> parseFromFile(String fileName) throws IOException {
-        Path path = Paths.get(RESOURCES + fileName);
 
-        return Files.readAllLines(path)
-                .stream()
+        InputStream is = BankStatementCSVParser.class.getResourceAsStream(fileName);
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        return reader.lines()
                 .map(s -> parseFromLine(s))
                 .collect(Collectors.toList());
 
