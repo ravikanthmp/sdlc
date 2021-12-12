@@ -6,12 +6,22 @@ public class DealValueAction implements Action{
     public void perform(Facts facts) {
         Stage dealStage = Stage.valueOf(facts.getFact("stage"));
         double amount = Double.parseDouble(facts.getFact("amount"));
-        double forecastedAmount = amount * switch(dealStage){
-            case LEAD -> 0.2;
-            case INTERESTED ->  0.5;
-            case EVALUATING ->  0.8;
-            case CLOSED ->  1;
-        };
+        double forecastedAmount = 0.0;
+
+        switch (dealStage){
+            case LEAD:
+                forecastedAmount = amount * 0.2;
+                break;
+            case EVALUATING:
+                forecastedAmount = amount * 0.5;
+                break;
+            case INTERESTED:
+                forecastedAmount = amount * 0.8;
+                break;
+            case CLOSED:
+                forecastedAmount = amount;
+                break;
+        }
 
         facts.setFact("forecastedAmount", String.valueOf(forecastedAmount));
         System.out.println("Forecasted amount is " + forecastedAmount);

@@ -14,25 +14,4 @@ public class BusinessRuleEngineTest {
 
         assertEquals(0, businessRuleEngine.count());
     }
-
-    @Test
-    public void shouldAddTwoActions() {
-        final BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine();
-
-        businessRuleEngine.addAction((n) -> {});
-        businessRuleEngine.addAction((n) -> {});
-
-        assertEquals(2, businessRuleEngine.count());
-    }
-
-    @Test
-    public void shouldExecuteOneAction() {
-        final BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine();
-        final Action mockAction = mock(Action.class);
-
-        businessRuleEngine.addAction(mockAction);
-        businessRuleEngine.run();
-
-        verify(mockAction).perform(null);
-    }
 }

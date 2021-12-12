@@ -4,50 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessRuleEngine {
-    List<Action> actions;
+    List<Rule> rules;
     Facts facts;
 
     public BusinessRuleEngine() {
-        actions = new ArrayList<>();
+        rules = new ArrayList<>();
         facts = new Facts();
     }
 
     public BusinessRuleEngine(Facts facts) {
-        actions = new ArrayList<>();
+        rules = new ArrayList<>();
         this.facts = facts;
     }
 
 
-    public void addAction(Action action){
-        actions.add(action);
+    public void addRule(Rule rule){
+        rules.add(rule);
     }
 
     public int count(){
-        return actions.size();
+        return rules.size();
     }
 
     public void run() {
 
-        actions.forEach(action -> action.perform(facts));
+        rules.forEach(rule -> rule.run(facts));
 
     }
 
     public static void main(String[] args) {
 
         Facts myFacts = new Facts();
-        myFacts.setFact("amount", "2100");
+        myFacts.setFact("jobTitle", "CEO");
         myFacts.setFact("stage", "LEAD");
+        myFacts.setFact("name", "Ishaan");
 
         BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(myFacts);
 
-        businessRuleEngine.addAction(new DealValueAction());
+        Rule rule = RuleBuilder.builder()
+                .when((facts) -> facts.getFact("jobTitle").equals("CEO"))
+                .then((facts) -> System.out.println("Sending Email to " + facts.getFact("name")))
+                .createRule();
 
-//        businessRuleEngine.addAction( (facts) -> {
-//            if (facts.getFact("jobTitle").equals("CEO")){
-//                final String name = facts.getFact("name");
-//                System.out.println("Sending Email to " + name);
-//            }
-//        });
+        businessRuleEngine.addRule(rule);
 
         businessRuleEngine.run();
     }
